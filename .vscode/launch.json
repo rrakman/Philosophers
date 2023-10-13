@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+        "type": "by-gdb",
+        "request": "launch",
+        "name": "Launch(gdb)",
+        "program": "${fileBasenameNoExtension}",
+        "cwd": "${workspaceRoot}"
+    },
+        {
+            "name": "Debug C Program",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/philo",  // Replace with the path to your generated C executable
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build"  // Replace with your build task name if necessary
+        }
+    ]
+}
