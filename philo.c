@@ -107,8 +107,10 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->data->fork[philo->left_fork]);
 	lock_print(philo, "has taken a fork");
 	lock_print(philo, "is eating");
-	usleep(philo->data->t_toeat * 1000);
+	ft_usleep(philo->data->t_toeat * 1000);
+	pthread_mutex_lock(&philo->data->meals);
 	philo->ate_n++;
+	pthread_mutex_unlock(&philo->data->meals);
 	pthread_mutex_unlock(&philo->data->fork[philo->r_fork]);
 	pthread_mutex_unlock(&philo->data->fork[philo->left_fork]);
 }
@@ -121,7 +123,7 @@ void think(t_philo *philo)
 void good_sleep(t_philo *philo)
 {
 	lock_print(philo, "is sleeping");
-	usleep(philo->data->t_tosleep * 1000);
+	ft_usleep(philo->data->t_tosleep * 1000);
 }
 
 void *routine(void *ptr)
@@ -130,7 +132,7 @@ void *routine(void *ptr)
 	if(philo->id % 2 != 0)
 	{
 		think(philo);
-		usleep(philo->data->t_toeat * 1000);
+		ft_usleep(philo->data->t_toeat * 1000);
 	}
 	if(philo->id % 2 != 0 && philo->id == philo->data->n_philos)
 			good_sleep(philo);
@@ -139,7 +141,7 @@ void *routine(void *ptr)
 		eat(philo);
 		good_sleep(philo);
 		think(philo);
-		usleep(philo->data->t_tosleep * 1000);
+		ft_usleep(philo->data->t_tosleep * 1000);
 	}
 	return NULL;
 }
@@ -150,6 +152,8 @@ void	create_philo(t_data *data)
 	while(i < data->n_philos)
 	{
 		pthread_create(&data->ph[i].th,NULL,&routine,&data->ph[i]);
+		data->ph[i].t0 = get_current_time();
+		usleep(10);
 		i++;
 	}
 }
@@ -166,12 +170,13 @@ void philo_init(t_data *data)
 		data->ph[i].left_fork = i+1;
 		if(data->ph[i].left_fork >= data->n_philos)
 			data->ph[i].left_fork = 0;
-		data->ph[i].t0 = get_current_time();
+		// data->ph[i].t0 = get_current_time();
 		data->ph[i].data = data;
 		data->ph[i].ate_n = 0;
 		i++;
 	}
 	pthread_mutex_init(&data->print,NULL);
+	pthread_mutex_init(&data->meals, NULL);
 }
 
 void	monitor(t_data *data)
@@ -183,14 +188,33 @@ void	monitor(t_data *data)
 		i = 0;
 		while(i < data->n_philos)
 		{
+			pthread_mutex_lock(&data->meals);
+			// printf("%d\n",data->ph[i].ate_n);
 			if(data->ph[i].ate_n == data->n_phntoeat)
 				n_philos_ate++;
 			else
 				n_philos_ate = 0;
+				// return ;
+			pthread_mutex_unlock(&data->meals);
 			i++;
-		}
+		}	
+		pthread_mutex_lock(&data->meals);
 		if(n_philos_ate == data->n_phntoeat)
 			return ;
+		pthread_mutex_unlock(&data->meals);
+	}
+}
+
+void	ft_usleep(unsigned long timetosleep)
+{
+	timetosleep /= 1000;
+	size_t time = get_current_time();
+	size_t last_t = get_current_time();
+
+	while(last_t - time < timetosleep)
+	{
+		last_t = get_current_time();
+		usleep(200);
 	}
 }
 
@@ -208,8 +232,14 @@ int main(int ac, char **av)
 			return 1;
 		philo_init(&data);
 		create_philo(&data);
-		monitor(&data);
-		//destroy_philo();
+		// monitor(&data);
+		// while(1);
+		int i = 0;
+		while(i < data.n_philos)
+		{
+			pthread_join(data.ph[i].th,NULL);
+			i++;
+		}
 	}
 	else
 		printf("Error\n");

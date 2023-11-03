@@ -28,11 +28,13 @@ typedef struct s_data
 	int n_phntoeat;
 	pthread_mutex_t *fork;
 	pthread_mutex_t print;
-	pthread_mutex_t 
-	// t_philo *ph;
+	pthread_mutex_t meals;
+	pthread_mutex_t time;
+	t_philo *ph;
 }t_data;
 
 
 
 
 long long	ft_atoi(char *s);
+void	ft_usleep(unsigned long timetosleep);
