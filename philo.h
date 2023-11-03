@@ -13,6 +13,7 @@ typedef struct s_philo
 	int id;
 	int r_fork;
 	int left_fork;
+	int ate_n;
 	size_t t0;
 	pthread_t th;
 	t_data	*data;
@@ -27,7 +28,8 @@ typedef struct s_data
 	int n_phntoeat;
 	pthread_mutex_t *fork;
 	pthread_mutex_t print;
-	t_philo *ph;
+	pthread_mutex_t 
+	// t_philo *ph;
 }t_data;
 
 

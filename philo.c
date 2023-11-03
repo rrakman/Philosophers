@@ -98,7 +98,6 @@ void lock_print(t_philo *philo, char *s)
 	pthread_mutex_lock(&philo->data->print);
 	printf("%lu %d %s\n", (get_current_time() - philo->t0), philo->id, s);
 	pthread_mutex_unlock(&philo->data->print);
-
 }
 
 void	eat(t_philo *philo)
@@ -109,6 +108,7 @@ void	eat(t_philo *philo)
 	lock_print(philo, "has taken a fork");
 	lock_print(philo, "is eating");
 	usleep(philo->data->t_toeat * 1000);
+	philo->ate_n++;
 	pthread_mutex_unlock(&philo->data->fork[philo->r_fork]);
 	pthread_mutex_unlock(&philo->data->fork[philo->left_fork]);
 }
@@ -152,12 +152,6 @@ void	create_philo(t_data *data)
 		pthread_create(&data->ph[i].th,NULL,&routine,&data->ph[i]);
 		i++;
 	}
-	i = 0;
-	while(i < data->n_philos)
-	{
-		pthread_join(data->ph[i].th,NULL);
-		i++;
-	}
 }
 
 void philo_init(t_data *data)
@@ -174,9 +168,30 @@ void philo_init(t_data *data)
 			data->ph[i].left_fork = 0;
 		data->ph[i].t0 = get_current_time();
 		data->ph[i].data = data;
+		data->ph[i].ate_n = 0;
 		i++;
 	}
 	pthread_mutex_init(&data->print,NULL);
+}
+
+void	monitor(t_data *data)
+{
+	int i = 0;
+	int n_philos_ate = 0;
+	while(1)
+	{
+		i = 0;
+		while(i < data->n_philos)
+		{
+			if(data->ph[i].ate_n == data->n_phntoeat)
+				n_philos_ate++;
+			else
+				n_philos_ate = 0;
+			i++;
+		}
+		if(n_philos_ate == data->n_phntoeat)
+			return ;
+	}
 }
 
 int main(int ac, char **av)
@@ -193,6 +208,7 @@ int main(int ac, char **av)
 			return 1;
 		philo_init(&data);
 		create_philo(&data);
+		monitor(&data);
 		//destroy_philo();
 	}
 	else
