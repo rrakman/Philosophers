@@ -150,7 +150,6 @@
 			eat(philo);
 			good_sleep(philo);
 			think(philo);
-			// ft_usleep(philo->data->t_tosleep * 1000);
 		}
 		return NULL;
 	}
@@ -220,8 +219,6 @@
 				size_t time = get_current_time() - data->ph[i].last_meal_t ;
 				if(data->ph[i].ate_n == data->n_phntoeat + 	1 || time > data->t_todie)
 				{
-					// killall();
-					// need to free leaks later
 					data->died = 1;
 					pthread_mutex_lock(&data->print);
 					if( time > data->t_todie)
@@ -231,7 +228,6 @@
 				}
 				pthread_mutex_unlock(&data->meals);
 				i++;
-			// usleep(10);
 			}	
 		}
 	}
