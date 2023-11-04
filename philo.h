@@ -15,14 +15,16 @@ typedef struct s_philo
 	int left_fork;
 	int ate_n;
 	size_t t0;
+	size_t last_meal_t;
 	pthread_t th;
 	t_data	*data;
 }t_philo;
 
 typedef struct s_data
 {
+	int died;
 	int n_philos;
-	int t_todie;
+	size_t t_todie;
 	int t_toeat;
 	int t_tosleep;
 	int n_phntoeat;
@@ -30,6 +32,7 @@ typedef struct s_data
 	pthread_mutex_t print;
 	pthread_mutex_t meals;
 	pthread_mutex_t time;
+	pthread_mutex_t death;
 	t_philo *ph;
 }t_data;
 
