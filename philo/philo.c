@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 17:35:15 by rrakman           #+#    #+#             */
-/*   Updated: 2023/11/05 18:25:16 by rrakman          ###   ########.fr       */
+/*   Updated: 2023/11/05 18:52:36 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,13 @@ int	main(int ac, char **av)
 		if (!data.ph)
 			return (1);
 		philo_init(&data);
+		if (data.n_philos == 1)
+		{
+			free(data.fork);
+			free(data.ph);
+			printf("0 1 has died\n");
+			return (0);
+		}
 		create_philo(&data);
 		monitor(&data);
 		ft_destroy(&data);
