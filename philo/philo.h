@@ -33,11 +33,11 @@ typedef struct s_data
 	pthread_mutex_t meals;
 	pthread_mutex_t time;
 	pthread_mutex_t death;
+	pthread_mutex_t last;
+	pthread_mutex_t meal1;
 	t_philo *ph;
+
 }t_data;
 
-
-
-
 long long	ft_atoi(char *s);
-void	ft_usleep(unsigned long timetosleep);
+void	ft_usleep(unsigned long timetosleep, t_data *data);
