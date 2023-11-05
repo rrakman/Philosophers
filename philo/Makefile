@@ -1,7 +1,7 @@
 CC = gcc
 NAME = philo
-SRC = philo.c ft_atoi.c
-CFLAG = -Wall -Werror -Wextra -pthread #-fsanitize=thread
+SRC = philo.c ft_atoi.c philo_utils.c routine.c destroy.c
+CFLAG = -Wall -Werror -Wextra -pthread #-fsanitize=thread -g
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

@@ -3,26 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ta9ra9 <ta9ra9@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/07 15:24:45 by ta9ra9            #+#    #+#             */
-/*   Updated: 2023/10/04 02:02:52 by ta9ra9           ###   ########.fr       */
+/*   Created: 2023/11/05 17:35:01 by rrakman           #+#    #+#             */
+/*   Updated: 2023/11/05 17:51:46 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include"philo.h"
+#include "philo.h"
 
 long long	ft_atoi(char *s)
 {
-	int				i;
-	int				sign;
-	long long		res;
+	int			i;
+	int			sign;
+	long long	res;
 
 	i = 0;
 	sign = 1;
 	res = 0;
-
 	while (s[i] == ' ' || (s[i] >= 8 && s[i] <= 13))
 		i++;
 	while (s[i] == '+' || s[i] == '-')
