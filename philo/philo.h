@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 17:52:09 by rrakman           #+#    #+#             */
-/*   Updated: 2023/11/05 18:24:45 by rrakman          ###   ########.fr       */
+/*   Updated: 2023/11/05 18:54:12 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_data
 	int					n_phntoeat;
 	pthread_mutex_t		*fork;
 	pthread_mutex_t		print;
-	pthread_mutex_t		meals;
 	pthread_mutex_t		time;
 	pthread_mutex_t		death;
 	pthread_mutex_t		last;

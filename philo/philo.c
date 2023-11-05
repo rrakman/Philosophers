@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 17:35:15 by rrakman           #+#    #+#             */
-/*   Updated: 2023/11/05 18:52:36 by rrakman          ###   ########.fr       */
+/*   Updated: 2023/11/05 19:35:29 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	philo_init(t_data *data)
 	}
 	data->died = 0;
 	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->meals, NULL);
 	pthread_mutex_init(&data->time, NULL);
 	pthread_mutex_init(&data->death, NULL);
 	pthread_mutex_init(&data->last, NULL);
@@ -70,8 +69,11 @@ int	check(t_data *data, int i, size_t time, size_t ate_n)
 		pthread_mutex_lock(&data->print);
 		pthread_mutex_lock(&data->time);
 		if (time > data->t_todie)
+		{
 			printf("%lu %d %s\n", (get_current_time() - data->ph[i].t0),
 				data->ph[i].id, "has died");
+			pthread_mutex_unlock(&data->fork[i]);
+		}
 		pthread_mutex_unlock(&data->time);
 		pthread_mutex_unlock(&data->print);
 		return (1);
@@ -116,16 +118,10 @@ int	main(int ac, char **av)
 		if (!data.ph)
 			return (1);
 		philo_init(&data);
-		if (data.n_philos == 1)
-		{
-			free(data.fork);
-			free(data.ph);
-			printf("0 1 has died\n");
-			return (0);
-		}
 		create_philo(&data);
 		monitor(&data);
 		ft_destroy(&data);
+		return (0);
 	}
 	else
 		printf("Error\n");

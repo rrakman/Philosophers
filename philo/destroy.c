@@ -6,7 +6,7 @@
 /*   By: rrakman <rrakman@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 17:56:22 by rrakman           #+#    #+#             */
-/*   Updated: 2023/11/05 18:51:54 by rrakman          ###   ########.fr       */
+/*   Updated: 2023/11/05 18:54:22 by rrakman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	ft_destroy(t_data *data)
 		i++;
 	}
 	pthread_mutex_destroy(&data->print);
-	pthread_mutex_destroy(&data->meals);
 	pthread_mutex_destroy(&data->meal1);
 	pthread_mutex_destroy(&data->time);
 	pthread_mutex_destroy(&data->death);
